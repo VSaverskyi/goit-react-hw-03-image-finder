@@ -1,16 +1,18 @@
-export const App = () => {
-  return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
+import { Component } from "react";
+import Modal from "./Modal";
+
+class App extends Component {
+  state = {
+    showModal: false
+  }
+
+  render() {
+    return (
+      <div>
+        <Modal/>
     </div>
   );
+  }
 };
+
+export default App;
