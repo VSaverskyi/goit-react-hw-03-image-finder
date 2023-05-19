@@ -3,6 +3,7 @@ import pixabayApi from '../../services/pixabay-api';
 import ImagesDataView from "components/ImagesDataView";
 import ImagesPendingView from "components/ImagesPendingView";
 import ImagesErrorView from "components/ImagesErrorView";
+import PropTypes from "prop-types";
 
 const Status = {
     IDLE: 'idle',
@@ -65,7 +66,7 @@ class ImageGallery extends Component {
         const { images, error, status } = this.state;
 
         if (status === 'pending') {
-            return <ImagesPendingView images={images} />;
+            return <ImagesPendingView/>;
         }
 
         if (status === 'rejected') {
@@ -79,3 +80,7 @@ class ImageGallery extends Component {
 }
 
 export default ImageGallery;
+
+ImageGallery.propTypes = {
+    searchingImage: PropTypes.string.isRequired
+}

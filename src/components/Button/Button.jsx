@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { ButtonWrapper } from "./Button.styled";
+import PropTypes from "prop-types";
 
 class Button extends Component {
     render() {
@@ -9,3 +10,7 @@ class Button extends Component {
 }
 
 export default Button;
+
+Button.propTypes = {
+    onClick: PropTypes.func.isRequired,
+}

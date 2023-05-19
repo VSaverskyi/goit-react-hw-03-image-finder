@@ -4,11 +4,13 @@ import ImageGalleryItem from "components/ImageGalleryItem";
 import Button from "components/Button";
 import { Component } from "react";
 import Modal from "components/Modal";
+import PropTypes from "prop-types";
 
 class ImagesDataView extends Component {
     state = {
         showModal: false,
-        imgData: null,
+        largeImageURL: '',
+        tags: '',
     }
 
     toggleModal = () => {
@@ -18,25 +20,25 @@ class ImagesDataView extends Component {
         ))
     }
 
-    handleItemClick = (imgData) => {
-        this.setState({ imgData });
+    handleItemClick = (largeImageURL, tags) => {
+        this.setState({ largeImageURL, tags });
         this.toggleModal();
     }
 
     render() {
         const { images, onClick } = this.props;
-        const { imgData } = this.state;
+        const { largeImageURL, tags } = this.state;
         return (
         <div>
             {images.length === 0 ? <p>Images not found!</p> :
             <ImageGalleryList>
                 {
-                images.map(image => {
+                images.map(({id, largeImageURL, tags, webformatURL}) => {
                     return (
-                        <ImageGalleryItem key={image.id} onClick={this.handleItemClick} image={image}>
+                        <ImageGalleryItem key={id} onClick={this.handleItemClick} largeImageURL={largeImageURL} tags={tags}>
                             <GalleryItemImg
-                                url={image.webformatURL}
-                                description={image.tags}
+                                url={webformatURL}
+                                description={tags}
                             />
                         </ImageGalleryItem>
                     )
@@ -48,7 +50,7 @@ class ImagesDataView extends Component {
             {this.state.showModal &&
                 <Modal
                 onClose={this.toggleModal}>
-                <img src={imgData.largeImageURL} alt={imgData.tags} />
+                <img src={largeImageURL} alt={tags} />
                 </Modal>
             }
         </div>
@@ -58,3 +60,15 @@ class ImagesDataView extends Component {
 }
 
 export default ImagesDataView;
+
+ImagesDataView.propTypes = {
+    images: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            largeImageURL: PropTypes.string.isRequired,
+            webformatURL: PropTypes.string.isRequired,
+            tags: PropTypes.string.isRequired,
+        }),
+    ),
+    onClick: PropTypes.func.isRequired,
+}

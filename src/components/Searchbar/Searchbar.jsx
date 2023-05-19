@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { Formik, ErrorMessage } from "formik";
 import * as yup from 'yup';
+import PropTypes from "prop-types";
 import { SearchBarHeader, SearchForm, SearchFormBtn, SearchFormBtnLabel, SearchFormInput } from "./Searchbar.styled";
 
 const schema = yup.string().required();
@@ -58,3 +59,7 @@ class SearchBar extends Component {
 }
 
 export default SearchBar;
+
+SearchBar.propTypes = {
+    onSubmit: PropTypes.func.isRequired
+}

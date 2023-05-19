@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const ImagesErrorView = ({ message }) => {
     return (
         <p>Error: {message}</p>
@@ -5,3 +7,7 @@ const ImagesErrorView = ({ message }) => {
 }
 
 export default ImagesErrorView;
+
+ImagesErrorView.propTypes = {
+    message: PropTypes.string.isRequired
+}
