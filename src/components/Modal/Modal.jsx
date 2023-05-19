@@ -6,16 +6,14 @@ const modalRoot = document.querySelector('#modal-root');
 
 class Modal extends Component {
     componentDidMount() {
-        window.addEventListener('keydown', this.hahndleKeyDown)
+        window.addEventListener('keydown', this.hahdlePressESC)
      }
     
-    componentDidUpdate() { }
-    
     componentWillUnmount() {
-    window.removeEventListener('keydown', this.hahndleKeyDown)
+    window.removeEventListener('keydown', this.hahdlePressESC)
     }
 
-    hahndleKeyDown = e => {
+    hahdlePressESC = e => {
          if (e.code === 'Escape') {
             this.props.onClose();
         }
