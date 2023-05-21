@@ -33,15 +33,15 @@ class ImageGallery extends Component {
         if (prevSearch !== nextSearch) {
             this.setState({ status: Status.PENDING });
 
-            this.setState({ pageNumber: 1 });
-
             try {
-                const response = await pixabayApi.fetchImages(nextSearch, pageNumber, perPage);
+                const response = await pixabayApi.fetchImages(nextSearch, 1, perPage);
                 const images = response.data.hits;
                 this.setState({ images, status: Status.RESOLVED });
             } catch (error) {
                 this.setState({ error, status: Status.REJECTED });
             } 
+
+            this.setState({ pageNumber: 1 });
         }
 
         if (prevPage < pageNumber) {
