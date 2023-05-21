@@ -28,7 +28,7 @@ class ImageGallery extends Component {
         const prevSearch = prevProps.searchingImage;
         const nextSearch = this.props.searchingImage;
         const prevPage = prevState.pageNumber;
-        const { pageNumber, buttonIsActive, images } = this.state;
+        const { pageNumber, buttonIsActive } = this.state;
 
         if (prevSearch !== nextSearch) {
             this.setState({ status: Status.PENDING });
@@ -56,7 +56,7 @@ class ImageGallery extends Component {
                 }
                 const newImages = response.data.hits;
                 
-                this.setState({images: [...images, ...newImages]})
+                this.setState((prevState) => ({images: [...prevState.images, ...newImages]}))
             } catch (error) {
                 return <ImagesErrorView message={error.message}/>;
             } 
