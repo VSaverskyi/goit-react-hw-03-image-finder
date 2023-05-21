@@ -65,7 +65,7 @@ class ImageGallery extends Component {
 
     handleLoadMoreBtnClick = () => {
 
-        this.setState({ pageNumber: (this.state.pageNumber + 1) });
+        this.setState(({pageNumber}) => ({ pageNumber: pageNumber + 1 }));
     }
 
     render() {
