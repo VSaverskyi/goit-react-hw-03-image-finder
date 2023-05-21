@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 
 class ImageGalleryItem extends Component {
     render() {
-        const { onClick, largeImageURL, tags } = this.props;
+        const { onClick, largeImageURL, tags, children } = this.props;
 
         return (
-            <ImageGalleryListItem onClick={() => onClick(largeImageURL, tags)} >{this.props.children}</ImageGalleryListItem>
+            <ImageGalleryListItem onClick={() => onClick(largeImageURL, tags)} >{children}</ImageGalleryListItem>
         )
     }
 }
@@ -18,4 +18,5 @@ ImageGalleryItem.propTypes = {
     onClick: PropTypes.func.isRequired,
     largeImageURL: PropTypes.string.isRequired,
     tags: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
 }

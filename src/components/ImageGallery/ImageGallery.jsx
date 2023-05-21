@@ -12,7 +12,7 @@ const Status = {
     REJECTED: 'rejected',
 };
 
-let page;
+// let page;
 const perPage = 12;
 
 class ImageGallery extends Component {
@@ -21,45 +21,51 @@ class ImageGallery extends Component {
         error: '',
         status: Status.IDLE,
         buttonIsActive: true,
+        pageNumber: 1,
     };
 
     async componentDidUpdate(prevProps, prevState) {
         const prevSearch = prevProps.searchingImage;
         const nextSearch = this.props.searchingImage;
+        const prevPage = prevState.pageNumber;
+        const { pageNumber, buttonIsActive, images } = this.state;
 
         if (prevSearch !== nextSearch) {
             this.setState({ status: Status.PENDING });
 
-            page = 1;
+            this.setState({ pageNumber: 1 });
 
             try {
-                const response = await pixabayApi.fetchImages(nextSearch, page, perPage);
+                const response = await pixabayApi.fetchImages(nextSearch, pageNumber, perPage);
                 const images = response.data.hits;
                 this.setState({ images, status: Status.RESOLVED });
             } catch (error) {
                 this.setState({ error, status: Status.REJECTED });
             } 
         }
+
+        if (prevPage < pageNumber) {
+            if (!buttonIsActive) {
+                return alert('Searching data is out of valid range');
+            }
+            try {
+                const response = await pixabayApi.fetchImages(nextSearch, pageNumber, perPage);
+                const totalPage = response.data.totalHits / perPage;
+                if (pageNumber > totalPage) {
+                    this.setState({buttonIsActive: false});
+                }
+                const newImages = response.data.hits;
+                
+                this.setState({images: [...images, ...newImages]})
+            } catch (error) {
+                return <ImagesErrorView message={error.message}/>;
+            } 
+        }
     }
 
-    handleLoadMoreBtnClick = async () => {
-        page += 1;
+    handleLoadMoreBtnClick = () => {
 
-        if (!this.state.buttonIsActive) {
-            return alert('Searching data is out of valid range');
-        }
-        try {
-            const response = await pixabayApi.fetchImages(this.props.searchingImage, page, perPage);
-            const totalPage = response.data.totalHits / perPage;
-            if (page > totalPage) {
-                this.setState({buttonIsActive: false});
-            }
-            const newImages = response.data.hits;
-            
-            this.setState({images: [...this.state.images, ...newImages]})
-        } catch (error) {
-            return <ImagesErrorView message={error.message}/>;
-        } 
+        this.setState({ pageNumber: (this.state.pageNumber + 1) });
     }
 
     render() {
